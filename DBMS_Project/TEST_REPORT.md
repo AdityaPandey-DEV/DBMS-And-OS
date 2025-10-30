@@ -268,3 +268,5 @@ The DBMS Project is:
 **Environment:** macOS 25.0.0, Python 3.x, MySQL 8.x  
 **Framework:** Flask 2.3.0, MySQL Connector, bcrypt  
 
+
+

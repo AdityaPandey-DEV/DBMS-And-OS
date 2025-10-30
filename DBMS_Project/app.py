@@ -498,7 +498,21 @@ def logout():
 # Run Application
 # ============================================
 
+def initialize_database():
+    """Initialize database with seed data if empty"""
+    try:
+        from seed_data import seed_database
+        print("🔍 Checking database initialization...")
+        seed_database()
+    except Exception as e:
+        print(f"⚠️  Could not seed database: {e}")
+        print("   (This is normal if database already has data)")
+
+
 if __name__ == '__main__':
+    # Initialize database with seed data if needed
+    initialize_database()
+    
     # Auto-detect port: Render sets PORT env variable, local uses 5000
     port = int(os.environ.get('PORT', 5001))
     # Debug mode: enabled locally, disabled on Render

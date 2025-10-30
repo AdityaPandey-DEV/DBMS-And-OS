@@ -2,8 +2,24 @@
 
 {% block title %}Investor Dashboard{% endblock %}
 
+{% block extra_css %}
+<style>
+    .welcome-banner {
+        background: linear-gradient(135deg, #764ba2 0%, #667eea 100%);
+        color: white;
+        padding: 30px;
+        border-radius: 16px;
+        margin-bottom: 30px;
+        box-shadow: 0 10px 30px rgba(118, 75, 162, 0.3);
+    }
+</style>
+{% endblock %}
+
 {% block content %}
-<h1>💰 Investor Dashboard</h1>
+<div class="welcome-banner">
+    <h1 style="color: white; margin-bottom: 10px; font-size: 32px;">💼 Welcome, {{ investor.name }}!</h1>
+    <p style="opacity: 0.95; font-size: 16px;">Discover promising startups and manage your investment portfolio</p>
+</div>
 
 <!-- Investor Profile Card -->
 <div class="card">
