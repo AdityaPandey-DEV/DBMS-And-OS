@@ -60,7 +60,7 @@ CREATE TABLE Investors (
     email VARCHAR(100) UNIQUE NOT NULL,
     password_hash VARCHAR(255) NOT NULL,
     investment_min DECIMAL(15,2) NOT NULL CHECK (investment_min > 0),
-    investment_max DECIMAL(15,2) NOT NULL CHECK (investment_max >= investment_min),
+    investment_max DECIMAL(15,2) NOT NULL,
     preferred_domains VARCHAR(255), -- Comma-separated domain_ids
     phone VARCHAR(20),
     location VARCHAR(100),
