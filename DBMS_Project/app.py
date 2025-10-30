@@ -21,7 +21,7 @@ app.permanent_session_lifetime = timedelta(hours=24)
 DB_CONFIG = {
     'host': 'localhost',
     'user': 'root',
-    'password': 'your_password',  # Change this!
+    'password': '',  # No password for local MySQL
     'database': 'funding_system'
 }
 
