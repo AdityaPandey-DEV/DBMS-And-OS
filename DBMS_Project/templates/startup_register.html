@@ -1,0 +1,80 @@
+{% extends "base.html" %}
+
+{% block title %}Startup Registration{% endblock %}
+
+{% block content %}
+<h1>🏢 Startup Registration</h1>
+
+<div class="card" style="max-width: 600px; margin: 30px auto;">
+    <form method="POST" action="/startup/register">
+        <div class="form-group">
+            <label for="name">Startup Name *</label>
+            <input type="text" id="name" name="name" required 
+                   placeholder="e.g., AI Insights">
+        </div>
+        
+        <div class="form-group">
+            <label for="email">Email *</label>
+            <input type="email" id="email" name="email" required 
+                   placeholder="contact@yourstartup.com">
+        </div>
+        
+        <div class="form-group">
+            <label for="password">Password *</label>
+            <input type="password" id="password" name="password" required 
+                   placeholder="Minimum 6 characters">
+        </div>
+        
+        <div class="form-group">
+            <label for="domain_id">Domain *</label>
+            <select id="domain_id" name="domain_id" required>
+                <option value="">-- Select Domain --</option>
+                {% for domain in domains %}
+                    <option value="{{ domain.domain_id }}">{{ domain.domain_name }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        
+        <div class="form-group">
+            <label for="funding_required">Funding Required (₹) *</label>
+            <input type="number" id="funding_required" name="funding_required" 
+                   required min="100000" step="100000"
+                   placeholder="e.g., 5000000 (50 Lakhs)">
+            <small style="color: #666;">Enter amount in Rupees</small>
+        </div>
+        
+        <div class="form-group">
+            <label for="description">Description</label>
+            <textarea id="description" name="description" rows="4" 
+                      placeholder="Brief description of your startup..."></textarea>
+        </div>
+        
+        <div class="form-group">
+            <label for="founded_date">Founded Date</label>
+            <input type="date" id="founded_date" name="founded_date">
+        </div>
+        
+        <div class="form-group">
+            <label for="location">Location *</label>
+            <input type="text" id="location" name="location" required 
+                   placeholder="e.g., Bangalore">
+        </div>
+        
+        <div class="form-group">
+            <label for="website">Website (optional)</label>
+            <input type="url" id="website" name="website" 
+                   placeholder="https://www.yourstartup.com">
+        </div>
+        
+        <div style="margin-top: 30px;">
+            <button type="submit" class="btn">Register Startup</button>
+            <a href="/startup/login" class="btn btn-secondary" style="margin-left: 10px;">Already have an account? Login</a>
+        </div>
+    </form>
+</div>
+
+<div style="text-align: center; margin: 20px 0;">
+    <a href="/">← Back to Home</a>
+</div>
+{% endblock %}
+

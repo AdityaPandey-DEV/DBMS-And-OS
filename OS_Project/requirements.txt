@@ -1,0 +1,29 @@
+# OS Project: Blockchain-Based File Access Control System
+# Python dependencies
+
+# ============================================
+# NO EXTERNAL DEPENDENCIES REQUIRED!
+# ============================================
+# This project uses only Python standard library modules:
+#   - hashlib (for SHA256)
+#   - json (for data serialization)
+#   - datetime (for timestamps)
+#   - os (for file operations)
+#   - typing (for type hints)
+#
+# This makes the project:
+#   ✓ Easy to deploy
+#   ✓ No installation needed
+#   ✓ Works on any Python 3.7+ installation
+#   ✓ Demonstrates core Python skills
+# ============================================
+
+# If you want to add optional enhancements (not required):
+
+# For better terminal output colors (optional)
+# colorama==0.4.6
+
+# For data visualization in reports (optional)
+# matplotlib==3.7.0
+# pandas==2.0.0
+

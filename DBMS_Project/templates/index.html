@@ -1,0 +1,77 @@
+{% extends "base.html" %}
+
+{% block title %}Home - Startup Funding System{% endblock %}
+
+{% block content %}
+<div style="text-align: center; padding: 40px 0;">
+    <h1 style="font-size: 48px; margin-bottom: 20px;">🚀 Welcome to Startup Funding Platform</h1>
+    <p style="font-size: 20px; color: #666; margin-bottom: 40px;">
+        Connect startups with investors through intelligent matchmaking
+    </p>
+</div>
+
+<div style="display: grid; grid-template-columns: 1fr 1fr; gap: 30px; margin: 40px 0;">
+    <div class="card" style="text-align: center;">
+        <h2>🏢 For Startups</h2>
+        <p style="color: #666; margin: 20px 0;">
+            Register your startup and get matched with investors based on your domain and funding needs.
+        </p>
+        <div style="margin-top: 30px;">
+            <a href="/startup/register" class="btn">Register Startup</a>
+            <a href="/startup/login" class="btn btn-secondary" style="margin-left: 10px;">Login</a>
+        </div>
+    </div>
+    
+    <div class="card" style="text-align: center;">
+        <h2>💰 For Investors</h2>
+        <p style="color: #666; margin: 20px 0;">
+            Discover promising startups that match your investment preferences and criteria.
+        </p>
+        <div style="margin-top: 30px;">
+            <a href="/investor/register" class="btn">Register Investor</a>
+            <a href="/investor/login" class="btn btn-secondary" style="margin-left: 10px;">Login</a>
+        </div>
+    </div>
+</div>
+
+<div style="margin: 60px 0;">
+    <h2 style="text-align: center; margin-bottom: 30px;">✨ Key Features</h2>
+    
+    <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px;">
+        <div class="card">
+            <h3>🎯 Smart Matching</h3>
+            <p style="color: #666;">
+                AI-powered algorithm matches startups with investors based on domain, funding range, and location.
+            </p>
+        </div>
+        
+        <div class="card">
+            <h3>📊 Detailed Analytics</h3>
+            <p style="color: #666;">
+                Track funding trends, view portfolio statistics, and analyze investment patterns.
+            </p>
+        </div>
+        
+        <div class="card">
+            <h3>🔒 Secure Platform</h3>
+            <p style="color: #666;">
+                Enterprise-grade security with encrypted passwords and secure session management.
+            </p>
+        </div>
+    </div>
+</div>
+
+<div class="card" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; text-align: center; padding: 40px;">
+    <h2 style="color: white;">DBMS Course Project</h2>
+    <p style="font-size: 18px; margin: 20px 0;">
+        A complete database management system demonstrating:
+    </p>
+    <div style="display: flex; justify-content: center; gap: 30px; margin-top: 20px;">
+        <div>✅ Normalized Schema (3NF)</div>
+        <div>✅ Complex SQL Queries</div>
+        <div>✅ Stored Procedures</div>
+        <div>✅ Web Application</div>
+    </div>
+</div>
+{% endblock %}
+

@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+
+{% block title %}Startup Login{% endblock %}
+
+{% block content %}
+<h1>🏢 Startup Login</h1>
+
+<div class="card" style="max-width: 500px; margin: 30px auto;">
+    <form method="POST" action="/startup/login">
+        <div class="form-group">
+            <label for="email">Email</label>
+            <input type="email" id="email" name="email" required 
+                   placeholder="contact@yourstartup.com">
+        </div>
+        
+        <div class="form-group">
+            <label for="password">Password</label>
+            <input type="password" id="password" name="password" required 
+                   placeholder="Enter your password">
+        </div>
+        
+        <div style="margin-top: 30px;">
+            <button type="submit" class="btn">Login</button>
+            <a href="/startup/register" class="btn btn-secondary" style="margin-left: 10px;">Register</a>
+        </div>
+    </form>
+</div>
+
+<div class="card" style="max-width: 500px; margin: 20px auto; background: #f8f9fa;">
+    <h3>💡 Demo Accounts</h3>
+    <p style="color: #666; margin: 10px 0;">You can use these sample accounts for testing:</p>
+    <ul style="margin-left: 20px; color: #666;">
+        <li><strong>Email:</strong> contact@aiinsights.com</li>
+        <li><strong>Email:</strong> hello@finflow.io</li>
+        <li><strong>Email:</strong> info@medicareai.com</li>
+    </ul>
+    <p style="color: #999; font-size: 14px; margin-top: 10px;">
+        <em>Note: Password hashes are in the database. For demo, register a new account.</em>
+    </p>
+</div>
+
+<div style="text-align: center; margin: 20px 0;">
+    <a href="/">← Back to Home</a>
+</div>
+{% endblock %}
+

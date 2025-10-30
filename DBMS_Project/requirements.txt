@@ -1,0 +1,16 @@
+# DBMS Project: Startup Funding System
+# Python dependencies
+
+# Web Framework
+Flask==2.3.0
+Werkzeug==2.3.0
+
+# MySQL Database Connector
+mysql-connector-python==8.1.0
+
+# Password Hashing
+bcrypt==4.0.1
+
+# Additional utilities
+python-dotenv==1.0.0
+
