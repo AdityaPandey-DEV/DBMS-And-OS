@@ -500,7 +500,7 @@ def logout():
 
 if __name__ == '__main__':
     # Auto-detect port: Render sets PORT env variable, local uses 5000
-    port = int(os.environ.get('PORT', 5000))
+    port = int(os.environ.get('PORT', 5001))
     # Debug mode: enabled locally, disabled on Render
     debug_mode = (DB_TYPE == 'mysql')
     
