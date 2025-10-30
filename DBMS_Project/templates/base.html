@@ -152,10 +152,17 @@
             border-color: #667eea;
         }
         
+        .table-wrapper {
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+            margin: 20px 0;
+        }
+        
         table {
             width: 100%;
             border-collapse: collapse;
             margin: 20px 0;
+            min-width: 600px;
         }
         
         th, td {
@@ -210,6 +217,216 @@
             background: #17a2b8;
             color: white;
         }
+        
+        /* Mobile Navigation Toggle */
+        .mobile-menu-toggle {
+            display: none;
+            background: none;
+            border: none;
+            color: white;
+            font-size: 24px;
+            cursor: pointer;
+            padding: 5px;
+        }
+        
+        .nav-links {
+            display: flex;
+            gap: 20px;
+        }
+        
+        /* Responsive Design - Mobile First */
+        @media screen and (max-width: 768px) {
+            body {
+                padding: 10px;
+            }
+            
+            .container {
+                border-radius: 5px;
+            }
+            
+            /* Hero sections and large text */
+            div[style*="font-size: 48px"] {
+                font-size: 28px !important;
+            }
+            
+            div[style*="font-size: 32px"] {
+                font-size: 24px !important;
+            }
+            
+            p[style*="font-size: 20px"] {
+                font-size: 16px !important;
+            }
+            
+            /* Navigation */
+            nav {
+                padding: 15px;
+                flex-wrap: wrap;
+            }
+            
+            nav .logo {
+                font-size: 18px;
+            }
+            
+            .mobile-menu-toggle {
+                display: block;
+            }
+            
+            nav ul {
+                display: none;
+                width: 100%;
+                flex-direction: column;
+                margin-top: 15px;
+                gap: 0;
+            }
+            
+            nav ul.active {
+                display: flex;
+            }
+            
+            nav li {
+                width: 100%;
+            }
+            
+            nav a {
+                display: block;
+                padding: 12px 15px;
+                border-bottom: 1px solid #444;
+            }
+            
+            /* Content Padding */
+            .content {
+                padding: 20px 15px;
+            }
+            
+            /* Typography */
+            h1 {
+                font-size: 24px;
+                margin-bottom: 15px;
+            }
+            
+            h2 {
+                font-size: 20px;
+                margin: 20px 0 10px 0;
+            }
+            
+            h3 {
+                font-size: 18px;
+            }
+            
+            /* Buttons */
+            .btn {
+                padding: 10px 20px;
+                font-size: 14px;
+                width: 100%;
+                text-align: center;
+                margin-bottom: 10px;
+            }
+            
+            .btn:last-child {
+                margin-bottom: 0;
+            }
+            
+            /* Forms */
+            .form-group {
+                margin-bottom: 15px;
+            }
+            
+            input, select, textarea {
+                padding: 10px;
+                font-size: 16px; /* Prevents zoom on iOS */
+            }
+            
+            /* Tables - Horizontal Scroll */
+            table {
+                display: block;
+                overflow-x: auto;
+                white-space: nowrap;
+                -webkit-overflow-scrolling: touch;
+                min-width: 100%;
+            }
+            
+            th, td {
+                padding: 8px;
+                font-size: 12px;
+                min-width: 80px;
+            }
+            
+            th:first-child,
+            td:first-child {
+                min-width: 120px;
+            }
+            
+            /* Cards */
+            .card {
+                padding: 15px;
+                margin: 10px 0;
+            }
+            
+            /* Badges */
+            .badge {
+                padding: 4px 8px;
+                font-size: 11px;
+            }
+            
+            /* Flash Messages */
+            .flash {
+                padding: 12px;
+                font-size: 14px;
+            }
+        }
+        
+        /* Tablet and small desktop adjustments */
+        @media screen and (max-width: 1024px) and (min-width: 769px) {
+            .content {
+                padding: 30px;
+            }
+            
+            h1 {
+                font-size: 28px;
+            }
+            
+            h2 {
+                font-size: 22px;
+            }
+        }
+        
+        /* Utility classes for responsive grids */
+        .grid-2 {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+        }
+        
+        .grid-3 {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+        }
+        
+        .grid-4 {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 20px;
+        }
+        
+        @media screen and (max-width: 768px) {
+            .grid-2,
+            .grid-3,
+            .grid-4 {
+                grid-template-columns: 1fr;
+                gap: 15px;
+            }
+        }
+        
+        @media screen and (max-width: 1024px) and (min-width: 769px) {
+            .grid-3 {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .grid-4 {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
     </style>
     {% block extra_css %}{% endblock %}
 </head>
@@ -217,19 +434,22 @@
     <div class="container">
         <nav>
             <div class="logo">💼 Startup Funding</div>
-            <ul>
-                <li><a href="/">Home</a></li>
-                <li><a href="/about">About</a></li>
+            <button class="mobile-menu-toggle" onclick="toggleMobileMenu()" aria-label="Toggle menu">
+                ☰
+            </button>
+            <ul id="navMenu">
+                <li><a href="/" onclick="closeMobileMenu()">Home</a></li>
+                <li><a href="/about" onclick="closeMobileMenu()">About</a></li>
                 {% if session.user_type %}
                     {% if session.user_type == 'startup' %}
-                        <li><a href="/startup/dashboard">Dashboard</a></li>
+                        <li><a href="/startup/dashboard" onclick="closeMobileMenu()">Dashboard</a></li>
                     {% elif session.user_type == 'investor' %}
-                        <li><a href="/investor/dashboard">Dashboard</a></li>
+                        <li><a href="/investor/dashboard" onclick="closeMobileMenu()">Dashboard</a></li>
                     {% endif %}
-                    <li><a href="/logout">Logout ({{ session.user_name }})</a></li>
+                    <li><a href="/logout" onclick="closeMobileMenu()">Logout ({{ session.user_name }})</a></li>
                 {% else %}
-                    <li><a href="/startup/login">Startup Login</a></li>
-                    <li><a href="/investor/login">Investor Login</a></li>
+                    <li><a href="/startup/login" onclick="closeMobileMenu()">Startup Login</a></li>
+                    <li><a href="/investor/login" onclick="closeMobileMenu()">Investor Login</a></li>
                 {% endif %}
             </ul>
         </nav>
@@ -248,6 +468,37 @@
             {% block content %}{% endblock %}
         </div>
     </div>
+    
+    <script>
+        function toggleMobileMenu() {
+            const navMenu = document.getElementById('navMenu');
+            navMenu.classList.toggle('active');
+        }
+        
+        function closeMobileMenu() {
+            const navMenu = document.getElementById('navMenu');
+            navMenu.classList.remove('active');
+        }
+        
+        // Close mobile menu when clicking outside
+        document.addEventListener('click', function(event) {
+            const nav = document.querySelector('nav');
+            const navMenu = document.getElementById('navMenu');
+            const toggleButton = document.querySelector('.mobile-menu-toggle');
+            
+            if (!nav.contains(event.target) && navMenu.classList.contains('active')) {
+                navMenu.classList.remove('active');
+            }
+        });
+        
+        // Close menu on window resize if desktop size
+        window.addEventListener('resize', function() {
+            if (window.innerWidth > 768) {
+                const navMenu = document.getElementById('navMenu');
+                navMenu.classList.remove('active');
+            }
+        });
+    </script>
 </body>
 </html>
 

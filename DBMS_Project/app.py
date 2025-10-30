@@ -7,36 +7,99 @@ Flask application with database connectivity
 """
 
 from flask import Flask, render_template, request, redirect, url_for, session, flash
-import mysql.connector
-from mysql.connector import Error
 import bcrypt
 from datetime import datetime, timedelta
 import os
 
+# Import both database connectors
+try:
+    import mysql.connector
+    from mysql.connector import Error as MySQLError
+    MYSQL_AVAILABLE = True
+except ImportError:
+    MYSQL_AVAILABLE = False
+
+try:
+    import psycopg2
+    from psycopg2.extras import RealDictCursor
+    POSTGRESQL_AVAILABLE = True
+except ImportError:
+    POSTGRESQL_AVAILABLE = False
+
 app = Flask(__name__)
-app.secret_key = 'your-secret-key-change-in-production'  # Change this!
+app.secret_key = os.environ.get('FLASK_SECRET_KEY', 'your-secret-key-change-in-production')
 app.permanent_session_lifetime = timedelta(hours=24)
 
-# Database Configuration
-DB_CONFIG = {
-    'host': 'localhost',
-    'user': 'root',
-    'password': '',  # No password for local MySQL
-    'database': 'funding_system'
-}
+# ============================================
+# Auto-Detect Database Environment
+# ============================================
+
+# Check if running on Render (DATABASE_URL environment variable exists)
+DATABASE_URL = os.environ.get('DATABASE_URL')
+
+if DATABASE_URL:
+    # Running on Render (Production) - Use PostgreSQL
+    DB_TYPE = 'postgresql'
+    print("🌐 Running on Render - Using PostgreSQL")
+else:
+    # Running locally - Use MySQL
+    DB_TYPE = 'mysql'
+    DB_CONFIG = {
+        'host': 'localhost',
+        'user': 'root',
+        'password': '',  # No password for local MySQL
+        'database': 'funding_system'
+    }
+    print("🏠 Running locally - Using MySQL")
 
 # ============================================
-# Database Connection Helper
+# Database Connection Helper (Auto-Switching)
 # ============================================
 
 def get_db_connection():
-    """Create and return database connection"""
+    """Create and return database connection (auto-detects MySQL or PostgreSQL)"""
     try:
-        connection = mysql.connector.connect(**DB_CONFIG)
-        return connection
-    except Error as e:
+        if DB_TYPE == 'postgresql':
+            # PostgreSQL connection for Render
+            connection = psycopg2.connect(DATABASE_URL, cursor_factory=RealDictCursor)
+            return connection
+        else:
+            # MySQL connection for local development
+            connection = mysql.connector.connect(**DB_CONFIG)
+            return connection
+    except Exception as e:
         print(f"Database connection error: {e}")
         return None
+
+def get_cursor(connection):
+    """Get cursor based on database type"""
+    if DB_TYPE == 'postgresql':
+        return connection.cursor()  # Already has RealDictCursor
+    else:
+        return connection.cursor(dictionary=True)  # MySQL dictionary cursor
+
+def execute_insert(cursor, query, params):
+    """Execute INSERT and return the new ID (handles both MySQL and PostgreSQL)"""
+    if DB_TYPE == 'postgresql':
+        # PostgreSQL uses RETURNING
+        if 'RETURNING' not in query.upper():
+            # Add RETURNING clause for PostgreSQL
+            if 'startup_id' in query.lower():
+                query += ' RETURNING startup_id'
+            elif 'investor_id' in query.lower():
+                query += ' RETURNING investor_id'
+            elif 'funding_id' in query.lower():
+                query += ' RETURNING funding_id'
+            elif 'match_id' in query.lower():
+                query += ' RETURNING match_id'
+        
+        cursor.execute(query, params)
+        result = cursor.fetchone()
+        return result[list(result.keys())[0]] if result else None
+    else:
+        # MySQL uses lastrowid
+        cursor.execute(query, params)
+        return cursor.lastrowid
 
 # ============================================
 # Authentication Functions
@@ -117,7 +180,7 @@ def startup_register():
     conn = get_db_connection()
     domains = []
     if conn:
-        cursor = conn.cursor(dictionary=True)
+        cursor = get_cursor(conn)
         cursor.execute("SELECT * FROM Domains")
         domains = cursor.fetchall()
         cursor.close()
@@ -135,7 +198,7 @@ def startup_login():
         conn = get_db_connection()
         if conn:
             try:
-                cursor = conn.cursor(dictionary=True)
+                cursor = get_cursor(conn)
                 cursor.execute("""
                     SELECT startup_id, name, email, password_hash 
                     FROM Startups WHERE email = %s
@@ -182,7 +245,7 @@ def startup_dashboard():
         return redirect(url_for('index'))
     
     try:
-        cursor = conn.cursor(dictionary=True)
+        cursor = get_cursor(conn)
         
         # Get startup details
         cursor.execute("""
@@ -293,7 +356,7 @@ def investor_register():
     conn = get_db_connection()
     domains = []
     if conn:
-        cursor = conn.cursor(dictionary=True)
+        cursor = get_cursor(conn)
         cursor.execute("SELECT * FROM Domains")
         domains = cursor.fetchall()
         cursor.close()
@@ -311,7 +374,7 @@ def investor_login():
         conn = get_db_connection()
         if conn:
             try:
-                cursor = conn.cursor(dictionary=True)
+                cursor = get_cursor(conn)
                 cursor.execute("""
                     SELECT investor_id, name, email, password_hash 
                     FROM Investors WHERE email = %s
@@ -357,7 +420,7 @@ def investor_dashboard():
         return redirect(url_for('index'))
     
     try:
-        cursor = conn.cursor(dictionary=True)
+        cursor = get_cursor(conn)
         
         # Get investor details
         cursor.execute("""
@@ -436,5 +499,11 @@ def logout():
 # ============================================
 
 if __name__ == '__main__':
-    app.run(debug=True, host='0.0.0.0', port=5000)
+    # Auto-detect port: Render sets PORT env variable, local uses 5000
+    port = int(os.environ.get('PORT', 5000))
+    # Debug mode: enabled locally, disabled on Render
+    debug_mode = (DB_TYPE == 'mysql')
+    
+    print(f"🚀 Starting server on port {port}")
+    app.run(debug=debug_mode, host='0.0.0.0', port=port)
 

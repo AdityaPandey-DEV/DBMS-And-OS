@@ -10,7 +10,7 @@
     </p>
 </div>
 
-<div style="display: grid; grid-template-columns: 1fr 1fr; gap: 30px; margin: 40px 0;">
+<div class="grid-2" style="margin: 40px 0;">
     <div class="card" style="text-align: center;">
         <h2>🏢 For Startups</h2>
         <p style="color: #666; margin: 20px 0;">
@@ -18,7 +18,7 @@
         </p>
         <div style="margin-top: 30px;">
             <a href="/startup/register" class="btn">Register Startup</a>
-            <a href="/startup/login" class="btn btn-secondary" style="margin-left: 10px;">Login</a>
+            <a href="/startup/login" class="btn btn-secondary">Login</a>
         </div>
     </div>
     
@@ -29,7 +29,7 @@
         </p>
         <div style="margin-top: 30px;">
             <a href="/investor/register" class="btn">Register Investor</a>
-            <a href="/investor/login" class="btn btn-secondary" style="margin-left: 10px;">Login</a>
+            <a href="/investor/login" class="btn btn-secondary">Login</a>
         </div>
     </div>
 </div>
@@ -37,7 +37,7 @@
 <div style="margin: 60px 0;">
     <h2 style="text-align: center; margin-bottom: 30px;">✨ Key Features</h2>
     
-    <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px;">
+    <div class="grid-3">
         <div class="card">
             <h3>🎯 Smart Matching</h3>
             <p style="color: #666;">
@@ -66,11 +66,11 @@
     <p style="font-size: 18px; margin: 20px 0;">
         A complete database management system demonstrating:
     </p>
-    <div style="display: flex; justify-content: center; gap: 30px; margin-top: 20px;">
-        <div>✅ Normalized Schema (3NF)</div>
-        <div>✅ Complex SQL Queries</div>
-        <div>✅ Stored Procedures</div>
-        <div>✅ Web Application</div>
+    <div style="display: flex; justify-content: center; gap: 30px; margin-top: 20px; flex-wrap: wrap;">
+        <div style="padding: 5px;">✅ Normalized Schema (3NF)</div>
+        <div style="padding: 5px;">✅ Complex SQL Queries</div>
+        <div style="padding: 5px;">✅ Stored Procedures</div>
+        <div style="padding: 5px;">✅ Web Application</div>
     </div>
 </div>
 {% endblock %}
